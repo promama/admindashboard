@@ -18,6 +18,10 @@ function Statistic() {
           <TopBar />
           <div className="container-fluid">Statistic page</div>
         </div>
+        {/* Scroll to Top Button*/}
+        <a className="scroll-to-top rounded" href="#page-top">
+          <i className="fas fa-angle-up"></i>
+        </a>
       </div>
     </body>
   );
