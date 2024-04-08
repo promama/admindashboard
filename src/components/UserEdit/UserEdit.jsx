@@ -32,13 +32,17 @@ function UserEdit() {
   const isShow = useSelector((state) => state.user.isShowOffcanvas);
 
   const [gender, setGender] = useState("Male");
-  const [date, setDate] = useState("dd/mm/yyyy");
+  const [date, setDate] = useState(
+    dayjs(listUsers[userIndex]?.birthDay, "DD/MM/YYYY") || "DD/MM/YYYY"
+  );
   const [role, setRole] = useState("User");
   const [status, setStatus] = useState("Active");
 
   useEffect(() => {
     setGender(listUsers[userIndex]?.sex);
-    setDate(dayjs(listUsers[userIndex]?.birthDay));
+    setRole(listUsers[userIndex]?.role);
+    setStatus(listUsers[userIndex]?.status);
+    setDate(dayjs(listUsers[userIndex]?.birthDay, "DD/MM/YYYY"));
   }, [listUsers, userIndex]);
 
   function handleChangeGender(event) {
@@ -63,6 +67,14 @@ function UserEdit() {
     ) {
       //
     }
+    let day = date.date();
+    let month = parseInt(date.month() + 1, 10);
+    if (date.date() < 10) {
+      day = "0" + day;
+    }
+    if (date.month() < 10) {
+      month = "0" + month;
+    }
     try {
       const res = await dispatch(
         fetchEditUserInfos({
@@ -72,12 +84,7 @@ function UserEdit() {
           gender: data.get("radio-gender"),
           role: data.get("radio-role"),
           status: data.get("radio-status"),
-          dob:
-            date.date() +
-            "/" +
-            parseInt(date.month() + 1, 10) +
-            "/" +
-            date.year(),
+          dob: day + "/" + month + "/" + date.year(),
         })
       ).unwrap();
       console.log(res);
@@ -112,7 +119,7 @@ function UserEdit() {
           {/* email address */}
           <Row className="d-flex mb-2">
             <Col>
-              <label>Email: </label>
+              <label className="pr-2">Email: </label>
               <label>{listUsers[userIndex]?.email}</label>
             </Col>
           </Row>

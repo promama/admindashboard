@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetAllUserInfos, reset } from "../../Slices/userSlice";
 import SingleUser from "./SingleUser";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Table } from "react-bootstrap";
 
 function User() {
   const navigate = useNavigate();
@@ -33,41 +33,31 @@ function User() {
         <div className="d-flex flex-column" id="content-wrapper">
           <TopBar />
           {/* Content below */}
-          <Container className="container-fluid fs-6 ml-4">
-            <Row className="mb-2 bg-secondary text-white">
-              <Col className="border" xs={1}>
-                CN
-              </Col>
-              <Col className="border" xs={2}>
-                email
-              </Col>
-              <Col className="border" xs={2}>
-                birthday
-              </Col>
-              <Col className="border" xs={2}>
-                phone
-              </Col>
-              <Col className="border" xs={1}>
-                gender
-              </Col>
-              <Col className="border" xs={1}>
-                role
-              </Col>
-              <Col className="border" xs={1}>
-                status
-              </Col>
-              <Col className="border" xs={2}>
-                actions
-              </Col>
-            </Row>
-            {listUsers.map((user, index) => (
-              <SingleUser
-                userData={user}
-                id={user._id}
-                index={index}
-                key={user._id}
-              />
-            ))}
+          <Container className="fs-6 ml-4 p-2 justify-content-between">
+            <Table responsive bordered hover>
+              <thead>
+                <tr>
+                  <th className="bg-secondary text-white">CN</th>
+                  <th className="bg-secondary text-white">Email</th>
+                  <th className="bg-secondary text-white">Birthday</th>
+                  <th className="bg-secondary text-white">Phone</th>
+                  <th className="bg-secondary text-white">Gender</th>
+                  <th className="bg-secondary text-white">Role</th>
+                  <th className="bg-secondary text-white">Status</th>
+                  <th className="bg-secondary text-white">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listUsers.map((user, index) => (
+                  <SingleUser
+                    userData={user}
+                    id={user._id}
+                    index={index}
+                    key={user._id}
+                  />
+                ))}
+              </tbody>
+            </Table>
           </Container>
         </div>
         {/* Scroll to Top Button*/}

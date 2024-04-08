@@ -5,7 +5,6 @@ const initialState = {
   email: localStorage.getItem("email") || "",
   status: "idle",
   token: localStorage.getItem("access_token") || "",
-  refresh_token: localStorage.getItem("refresh_token") || "",
   message: "",
   listUsers: [],
   failData: {},
@@ -33,14 +32,12 @@ export const fetchVerify = createAsyncThunk(
   "user/fetchVerify",
   async (numb, { rejectWithValue }) => {
     try {
-      const refresh_token = localStorage.getItem("refresh_token");
       const res = await axios.request({
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         method: "POST",
         url: `http://localhost:5000/admin/verify`,
-        data: { refresh_token },
       });
       return res.data;
     } catch (err) {
@@ -53,14 +50,12 @@ export const fetchGetAllUserInfos = createAsyncThunk(
   "user/fetchGetAllUserInfos",
   async (numb, { rejectWithValue }) => {
     try {
-      const refresh_token = localStorage.getItem("refresh_token");
       const res = await axios.request({
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         method: "POST",
         url: `http://localhost:5000/admin/allUser`,
-        data: { refresh_token },
       });
       return res.data;
     } catch (err) {
@@ -73,14 +68,13 @@ export const fetchEditUserInfos = createAsyncThunk(
   "user/fetchEditUserInfos",
   async (props, { rejectWithValue }) => {
     try {
-      const refresh_token = localStorage.getItem("refresh_token");
       const res = await axios.request({
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         method: "POST",
         url: `http://localhost:5000/admin/editUser/${props._id}`,
-        data: { refresh_token, props },
+        data: { props },
       });
       return res.data;
     } catch (err) {
@@ -93,14 +87,13 @@ export const fetchDeleteUser = createAsyncThunk(
   "user/fetchDeleteUser",
   async (props, { rejectWithValue }) => {
     try {
-      const refresh_token = localStorage.getItem("refresh_token");
       const res = await axios.request({
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         method: "DELETE",
         url: `http://localhost:5000/admin/delete/${props._id}`,
-        data: { refresh_token, props },
+        data: { props },
       });
       return res.data;
     } catch (err) {
@@ -117,12 +110,12 @@ const userSlice = createSlice({
       state.email = "";
       state.status = "idle";
       state.token = "";
-      state.refresh_token = "";
       state.message = "";
       state.listUsers = [];
       state.failData = {};
       state.userIndex = 0;
-      state.allowAccess = true;
+      state.allowAccess = false;
+      state.isShowOffcanvas = false;
 
       localStorage.clear();
     },
@@ -142,9 +135,8 @@ const userSlice = createSlice({
       state.message = "login success!";
       state.email = action.payload.email;
       state.token = action.payload.token;
-      state.refresh_token = action.payload.refreshToken;
+      state.allowAccess = true;
       localStorage.setItem("access_token", action.payload.token);
-      localStorage.setItem("refresh_token", action.payload.refreshToken);
     });
     builder.addCase(fetchLogin.rejected, (state, action) => {
       state.status = "fail";
@@ -156,7 +148,6 @@ const userSlice = createSlice({
       state.message = "get all user success!";
       state.token = action.payload.token;
       localStorage.setItem("access_token", action.payload.token);
-      state.refresh_token = action.payload.refreshToken;
       state.listUsers = action.payload.users;
     });
     builder.addCase(fetchGetAllUserInfos.rejected, (state, action) => {

@@ -11,14 +11,13 @@ export const showAllOrder = createAsyncThunk(
   "cart/showAllOrder",
   async (productInfos, { rejectWithValue }) => {
     try {
-      const refresh_token = localStorage.getItem("refresh_token");
       const res = await axios.request({
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         method: "POST",
         url: `http://localhost:5000/admin/getAllOrder`,
-        data: { ...productInfos, refresh_token },
+        data: { ...productInfos },
       });
       return res.data;
     } catch (err) {

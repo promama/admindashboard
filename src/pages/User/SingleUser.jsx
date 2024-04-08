@@ -9,19 +9,6 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 function SingleUser(props) {
   const dispatch = useDispatch();
 
-  function checkNull(target) {
-    if (target == null) return true;
-    return false;
-  }
-
-  function setContent(size, content) {
-    return (
-      <Col className="border" xs={size}>
-        {content}
-      </Col>
-    );
-  }
-
   function handleEditUser() {
     dispatch(showOffcanvas({ index: props.index }));
   }
@@ -43,43 +30,35 @@ function SingleUser(props) {
   }
   //props.userData.
   return (
-    <Row className="bg-white mb-1">
-      <Col className="border" xs={1}>
-        {props.index + 1}
-      </Col>
-      <Col className="border" xs={2}>
-        {props.userData.email}
-      </Col>
-      {checkNull(props.userData.birthDay)
-        ? setContent(2, "")
-        : setContent(2, props.userData.birthDay)}
-      {checkNull(props.userData.phoneNumber)
-        ? setContent(2, "")
-        : setContent(2, props.userData.phoneNumber)}
-      {checkNull(props.userData.sex)
-        ? setContent(1, "")
-        : setContent(1, props.userData.sex)}
-      {checkNull(props.userData.role)
-        ? setContent(1, "")
-        : setContent(1, props.userData.role)}
-      {checkNull(props.userData.status)
-        ? setContent(1, "")
-        : setContent(1, props.userData.status)}
-      <Col className="border" xs={2}>
-        <Row>
-          <Col xs={4}>
-            <Button variant="outline-primary" onClick={handleEditUser}>
-              Edit
-            </Button>
-          </Col>
-          <Col xs={6}>
-            <Button variant="outline-danger" onClick={handleDeleteUser}>
-              Delete
-            </Button>
-          </Col>
-        </Row>
-      </Col>
-    </Row>
+    <tr>
+      <td>{props.index + 1}</td>
+      <td>{props.userData.email}</td>
+      {props.userData.birthDay ? <td>{props.userData.birthDay}</td> : <td></td>}
+      {props.userData.phoneNumber ? (
+        <td>{props.userData.phoneNumber}</td>
+      ) : (
+        <td></td>
+      )}
+      {props.userData.sex ? <td>{props.userData.sex}</td> : <td></td>}
+      {props.userData.role ? <td>{props.userData.role}</td> : <td></td>}
+      {props.userData.status ? <td>{props.userData.status}</td> : <td></td>}
+      <td>
+        <Button
+          className="mr-2 mb-1 mt-1"
+          variant="outline-primary"
+          onClick={handleEditUser}
+        >
+          Edit
+        </Button>
+        <Button
+          className="mb-1 mt-1"
+          variant="outline-danger"
+          onClick={handleDeleteUser}
+        >
+          Delete
+        </Button>
+      </td>
+    </tr>
   );
 }
 

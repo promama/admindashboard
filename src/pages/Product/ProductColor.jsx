@@ -18,7 +18,7 @@ function ProductColor(props) {
   return (
     <>
       <Row className="mb-2 mt-2">
-        <Col xs={1}>
+        <Col sm="auto" md={2} lg={2}>
           <Box
             sx={{
               backgroundColor: props.colors?.productColor,
@@ -30,35 +30,35 @@ function ProductColor(props) {
           ></Box>
           {props.colors?.productColor}
         </Col>
-        <Col xs={1} className="mr-2">
+        <Col xs="auto" lg={1} className="mr-2">
           <img
             src={props.colors.url}
             alt=""
             style={{ width: "70px", height: "50px", objectFit: "cover" }}
           />
         </Col>
-        <Col xs={1} className="mr-2">
+        <Col xs="auto" lg={1} className="mr-2">
           <img
             src={props.colors.url1}
             alt=""
             style={{ width: "70px", height: "50px", objectFit: "cover" }}
           />
         </Col>
-        <Col xs={1} className="mr-2">
+        <Col xs="auto" lg={1} className="mr-2">
           <img
             src={props.colors.url2}
             alt=""
             style={{ width: "70px", height: "50px", objectFit: "cover" }}
           />
         </Col>
-        <Col xs={1} className="mr-2">
+        <Col xs="auto" lg={1} className="mr-2">
           <img
             src={props.colors.url3}
             alt=""
             style={{ width: "70px", height: "50px", objectFit: "cover" }}
           />
         </Col>
-        <Col xs={3}>
+        <Col xs="auto" lg={2} className="mt-2">
           <div className="">
             <select
               className="form-select"
@@ -84,7 +84,7 @@ function ProductColor(props) {
             </select>
           </div>
         </Col>
-        <Col xs={2}>
+        <Col xs="auto" className="mt-3">
           Quantity:{" "}
           {sizes.map((productSize) => {
             return (
@@ -98,7 +98,7 @@ function ProductColor(props) {
             );
           })}
         </Col>
-        <Col>
+        <Col xs="auto" className="mt-3">
           Price:{" "}
           {sizes.map((productSize) => {
             return (

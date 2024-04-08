@@ -11,12 +11,14 @@ import Delivery from "./pages/Delivery/Delivery";
 import SignIn from "./pages/SignIn/SignIn";
 import UserEdit from "./components/UserEdit/UserEdit";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import CreateProduct from "./components/CreateProduct/CreateProduct";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <UserEdit />
+        <CreateProduct />
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/" Component={DashBoard}></Route>

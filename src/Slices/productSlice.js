@@ -9,6 +9,7 @@ const initialState = {
   products: [],
   colors: [],
   sizes: [],
+  isShowCreateProduct: false,
 };
 
 export const fetchUploadImage = createAsyncThunk(
@@ -32,14 +33,32 @@ export const fetchShowAllProducts = createAsyncThunk(
   "cart/fetchShowAllProducts",
   async (data, { rejectWithValue }) => {
     try {
-      const refresh_token = localStorage.getItem("refresh_token");
       const res = await axios.request({
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         method: "POST",
         url: `http://localhost:5000/admin/getAllProducts`,
-        data: { refresh_token },
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const fetchCreateProduct = createAsyncThunk(
+  "product/fetchCreateProduct",
+  async (productData, { rejectWithValue }) => {
+    try {
+      const res = await axios.request({
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+        method: "POST",
+        url: `http://localhost:5000/admin/createProduct`,
+        data: productData,
       });
       return res.data;
     } catch (err) {
@@ -51,7 +70,17 @@ export const fetchShowAllProducts = createAsyncThunk(
 const productSlice = createSlice({
   name: "product",
   initialState,
-  reducers: {},
+  reducers: {
+    showOffcanvasCreateProduct: (state, action) => {
+      state.isShowCreateProduct = true;
+    },
+    hideOffCanvasCreateProduct: (state, action) => {
+      state.isShowCreateProduct = false;
+    },
+    saveImages: (state, action) => {
+      state.productImages = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     //upload image
     builder.addCase(fetchUploadImage.pending, (state, action) => {
@@ -80,7 +109,22 @@ const productSlice = createSlice({
       state.status = "fail";
       state.message = action.payload?.message;
     });
+    //create a product
+    builder.addCase(fetchCreateProduct.fulfilled, (state, action) => {
+      state.status = "success";
+      state.message = action.payload?.message;
+    });
+    builder.addCase(fetchCreateProduct.rejected, (state, action) => {
+      state.status = "fail";
+      state.message = action.payload?.message;
+    });
   },
 });
+
+export const {
+  showOffcanvasCreateProduct,
+  hideOffCanvasCreateProduct,
+  saveImages,
+} = productSlice.actions;
 
 export default productSlice.reducer;

@@ -10,10 +10,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { fetchLogin } from "../../Slices/userSlice";
+import { fetchLogin, reset } from "../../Slices/userSlice";
+import { useEffect } from "react";
 // import { cartListItem } from "../../slices/cartSlice";
 
 function Copyright(props) {
@@ -56,7 +57,6 @@ export default function SignIn() {
       ).unwrap();
       alert(res.message);
       localStorage.setItem("access_token", res.token);
-      localStorage.setItem("refresh_token", res.refreshToken);
       localStorage.setItem("email", res.email);
       navigate("/");
     } catch (err) {
@@ -64,6 +64,10 @@ export default function SignIn() {
       alert(err.message);
     }
   };
+
+  useEffect(() => {
+    dispatch(reset());
+  }, [dispatch]);
 
   return (
     <>

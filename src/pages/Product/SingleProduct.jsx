@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Container, Row, Stack } from "react-bootstrap";
+import { Button, Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import ProductColor from "./ProductColor";
 
@@ -11,7 +11,7 @@ function SingleProduct(props) {
     return false;
   };
   return (
-    <Stack className="mt-1">
+    <Stack className="mt-1 d-flex">
       {props.products && (
         <div className="mb-4">
           <Card>
@@ -21,7 +21,7 @@ function SingleProduct(props) {
             <Card.Body>
               <Container className="mb-2">
                 <Row className="mb-2">
-                  <Col xs={3}>
+                  <Col xs="auto">
                     <img
                       src={props.products.url}
                       alt=""
@@ -32,22 +32,36 @@ function SingleProduct(props) {
                       }}
                     />
                   </Col>
-                  <Col xs={9}>
+                  <Col xs="auto">
                     <Row>
-                      <Col xs={2}>brand: {props.products.brand}</Col>
-                      <Col>category: {props.products.category}</Col>
+                      <Col xs="auto" md={2}>
+                        brand: {props.products.brand}
+                      </Col>
+                      <Col xs="auto">category: {props.products.category}</Col>
                     </Row>
-                    {colors.map((color) => {
+                    {colors.map((color, index) => {
                       return (
                         checkColorMatchProduct(
                           color.productId,
                           props.products._id
-                        ) && <ProductColor colors={color} key={color._id} />
+                        ) && (
+                          <ProductColor
+                            colors={color}
+                            key={color._id + index}
+                          />
+                        )
                       );
                     })}
                   </Col>
                 </Row>
               </Container>
+              <Button variant="outline-primary" className="mr-3">
+                Edit
+              </Button>
+              <Button variant="outline-primary" className="mr-3">
+                Refill
+              </Button>
+              <Button variant="outline-danger">Delete</Button>
             </Card.Body>
           </Card>
         </div>
