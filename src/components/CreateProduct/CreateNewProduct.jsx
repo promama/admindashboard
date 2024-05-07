@@ -99,22 +99,16 @@ function CreateNewProduct() {
 
     console.log(files);
     try {
-      // const res = await axios({
-      //   method: "POST",
-      //   url: "http://localhost:5000/admin/createProduct",
-      //   data: files,
-      //   headers: {
-      //     "Content-type": "multipart/form-data",
-      //   },
-      // });
-      const res = dispatch(fetchCreateProduct(files));
+      const res = await dispatch(fetchCreateProduct(files)).unwrap();
+      alert(res.message);
       console.log(res.message);
     } catch (err) {
-      console.log(err);
-      alert(err.message);
       if (err.message === "signin again") {
         dispatch(reset());
         navigate("/signin");
+      } else {
+        console.log(err);
+        alert(err.message);
       }
     }
   };
@@ -219,12 +213,12 @@ function CreateNewProduct() {
               margin="normal"
               fullWidth
               required
+              value={size}
               name="size"
               label="Product Size"
-              type="number"
               sx={{ marginBottom: 2 }}
               onChange={(e) => {
-                setSize(e.target.value);
+                setSize(e.target.value.replace(/\D/, ""));
               }}
             ></TextField>
           </Col>
@@ -236,12 +230,12 @@ function CreateNewProduct() {
               margin="normal"
               fullWidth
               required
+              value={quantity}
               name="quantity"
               label="Product Quantity"
-              type="number"
               sx={{ marginBottom: 2 }}
               onChange={(e) => {
-                setQuantity(e.target.value);
+                setQuantity(e.target.value.replace(/\D/, ""));
               }}
             ></TextField>
           </Col>
@@ -253,12 +247,12 @@ function CreateNewProduct() {
               margin="normal"
               fullWidth
               required
+              value={price}
               name="price"
               label="Product Price"
-              type="number"
               sx={{ marginBottom: 2 }}
               onChange={(e) => {
-                setPrice(e.target.value);
+                setPrice(e.target.value.replace(/\D/, ""));
               }}
             ></TextField>
           </Col>

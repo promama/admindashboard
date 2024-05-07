@@ -6,6 +6,10 @@ import CreateNewProduct from "./CreateNewProduct";
 import CreateExistProduct from "./CreateExistProduct";
 
 function CreateProduct() {
+  const dispatch = useDispatch();
+  const [isCreateExistProduct, setIsCreateExistProduct] = useState("");
+  const [isNew, setIsNew] = useState(true);
+
   const isShowCreateProduct = useSelector(
     (state) => state.product.isShowCreateProduct
   );
@@ -13,10 +17,7 @@ function CreateProduct() {
   const [isCreateNewProduct, setIsCreateNewProduct] = useState(
     "bg-primary text-white"
   );
-  const [isCreateExistProduct, setIsCreateExistProduct] = useState("");
-  const [isNew, setIsNew] = useState(true);
 
-  const dispatch = useDispatch();
   return (
     <Offcanvas
       show={isShowCreateProduct}

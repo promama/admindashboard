@@ -12,6 +12,7 @@ import SignIn from "./pages/SignIn/SignIn";
 import UserEdit from "./components/UserEdit/UserEdit";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import CreateProduct from "./components/CreateProduct/CreateProduct";
+import EditProduct from "./components/EditProduct/EditProduct";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <BrowserRouter>
         <UserEdit />
         <CreateProduct />
+        <EditProduct />
         <Routes>
           <Route element={<PrivateRoutes />}>
             <Route path="/" Component={DashBoard}></Route>
