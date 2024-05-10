@@ -2,9 +2,8 @@ import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { fetchCreateProduct } from "../../Slices/productSlice";
 import { reset } from "../../Slices/userSlice";
 const yup = require("yup");
@@ -68,13 +67,6 @@ function CreateNewProduct() {
     }
   };
 
-  const handleUpload = async () => {
-    try {
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -115,7 +107,6 @@ function CreateNewProduct() {
 
   return (
     <>
-      <div>CreateNewProduct</div>
       <Box
         className="align-items-center"
         component="form"
@@ -276,17 +267,6 @@ function CreateNewProduct() {
               );
             })}
         </Row>
-        {/* <ImageUpload
-          color={color}
-          name={name}
-          category={category}
-          brand={brand}
-          description={description}
-          size={size}
-          quantity={quantity}
-          price={price}
-          handleCallback={callBack}
-        /> */}
         <Button type="submit" variant="contained">
           Create new Product
         </Button>

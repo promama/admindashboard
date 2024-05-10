@@ -6,17 +6,14 @@ import CreateNewProduct from "./CreateNewProduct";
 import CreateExistProduct from "./CreateExistProduct";
 
 function CreateProduct() {
-  const dispatch = useDispatch();
-  const [isCreateExistProduct, setIsCreateExistProduct] = useState("");
-  const [isNew, setIsNew] = useState(true);
-
   const isShowCreateProduct = useSelector(
     (state) => state.product.isShowCreateProduct
   );
-
-  const [isCreateNewProduct, setIsCreateNewProduct] = useState(
-    "bg-primary text-white"
+  const isCreateNewColor = useSelector(
+    (state) => state.product.isCreateNewColor
   );
+  const colorData = useSelector((state) => state.product.colorData);
+  const dispatch = useDispatch();
 
   return (
     <Offcanvas
@@ -28,40 +25,19 @@ function CreateProduct() {
       style={{ width: "50%", background: "light" }}
     >
       <Offcanvas.Header closeButton>
-        <Offcanvas.Title className="fs-2">Create Product</Offcanvas.Title>
+        <Offcanvas.Title className="fs-2">
+          {!isCreateNewColor ? "Create Product" : "Create Color"}
+        </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
         <Container className="d-inline ">
           <Row>
-            <Col>
-              <Button
-                className={isCreateNewProduct}
-                variant="outline-primary"
-                onClick={() => {
-                  setIsCreateNewProduct("bg-primary text-white");
-                  setIsCreateExistProduct("");
-                  setIsNew(true);
-                }}
-              >
-                Create new Product
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                className={isCreateExistProduct}
-                variant="outline-primary"
-                onClick={() => {
-                  setIsCreateNewProduct("");
-                  setIsCreateExistProduct("bg-primary text-white");
-                  setIsNew(false);
-                }}
-              >
-                Create exsist Product
-              </Button>
-            </Col>
+            {!isCreateNewColor ? (
+              <CreateNewProduct />
+            ) : (
+              <CreateExistProduct colorData={colorData} />
+            )}
           </Row>
-          <hr></hr>
-          <Row>{isNew ? <CreateNewProduct /> : <CreateExistProduct />}</Row>
         </Container>
       </Offcanvas.Body>
     </Offcanvas>

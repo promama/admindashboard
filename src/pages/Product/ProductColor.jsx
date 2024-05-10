@@ -4,7 +4,6 @@ import { Button, Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import ProductSize from "./ProductSize";
 import { HexColorPicker } from "react-colorful";
-import { display } from "@mui/system";
 import {
   fetchAddProductSize,
   fetchDeleteProductColor,
@@ -20,7 +19,6 @@ function ProductColor(props) {
   const sizes = useSelector((state) => state.product.sizes);
   const isLoading = useSelector((state) => state.product.isLoading);
 
-  const [size, setSize] = useState("");
   const [isColorEdit, setIsColorEdit] = useState(false);
   const [color, setColor] = useState(props.colors?.productColor);
   const [addSize, setAddSize] = useState(false);
@@ -29,10 +27,6 @@ function ProductColor(props) {
   const [newSize, setNewSize] = useState("");
   const [newQuantity, setNewQuantity] = useState("");
   const [newPrice, setNewPrice] = useState("");
-
-  function handleBoxChange(e) {
-    setSize(e.target.value.toString());
-  }
 
   function isMatched(arg1, arg2) {
     if (arg1 === arg2) return true;

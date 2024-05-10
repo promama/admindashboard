@@ -14,6 +14,8 @@ const initialState = {
   isShowEditProduct: false,
   editProductId: "",
   isLoading: false,
+  isCreateNewColor: false,
+  colorData: {},
 };
 
 export const fetchUploadImage = createAsyncThunk(
@@ -62,6 +64,26 @@ export const fetchCreateProduct = createAsyncThunk(
         },
         method: "POST",
         url: `http://localhost:5000/admin/createProduct`,
+        data: productData,
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const fetchCreateColor = createAsyncThunk(
+  "product/fetchCreateColor",
+  async (productData, { rejectWithValue }) => {
+    try {
+      const res = await axios.request({
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+        method: "POST",
+        url: `http://localhost:5000/admin/createColor`,
         data: productData,
       });
       return res.data;
@@ -229,9 +251,17 @@ const productSlice = createSlice({
   reducers: {
     showOffcanvasCreateProduct: (state, action) => {
       state.isShowCreateProduct = true;
+      state.isCreateNewColor = false;
     },
     hideOffCanvasCreateProduct: (state, action) => {
       state.isShowCreateProduct = false;
+      state.isCreateNewColor = false;
+      state.colorData = {};
+    },
+    showOffCanvasCreateColor: (state, action) => {
+      state.isShowCreateProduct = true;
+      state.isCreateNewColor = true;
+      state.colorData = action.payload;
     },
     showOffCanvasEditProduct: (state, action) => {
       state.isShowEditProduct = true;
@@ -285,6 +315,16 @@ const productSlice = createSlice({
       state.sizes = action.payload?.allSize;
     });
     builder.addCase(fetchCreateProduct.rejected, (state, action) => {
+      state.status = "fail";
+      state.message = action.payload?.message;
+    });
+    //create color
+    builder.addCase(fetchCreateColor.fulfilled, (state, action) => {
+      state.status = "success";
+      state.message = action.payload?.message;
+      state.colors = action.payload?.colors;
+    });
+    builder.addCase(fetchCreateColor.rejected, (state, action) => {
       state.status = "fail";
       state.message = action.payload?.message;
     });
@@ -392,6 +432,7 @@ const productSlice = createSlice({
 export const {
   showOffcanvasCreateProduct,
   hideOffCanvasCreateProduct,
+  showOffCanvasCreateColor,
   showOffCanvasEditProduct,
   hideOffCanvasEditProduct,
   saveImages,

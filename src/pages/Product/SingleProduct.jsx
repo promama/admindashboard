@@ -6,17 +6,14 @@ import {
   fetchUpdateProductBrand,
   fetchUpdateProductCategory,
   fetchUpdateProductName,
+  showOffCanvasCreateColor,
 } from "../../Slices/productSlice";
 import { TextField } from "@mui/material";
 import { reset } from "../../Slices/userSlice";
 import { useNavigate } from "react-router-dom";
-import { HexColorPicker } from "react-colorful";
-import { Box } from "@mui/system";
 
 function SingleProduct(props) {
   const colors = useSelector((state) => state.product.colors);
-
-  const [color, setColor] = useState("#ffffff");
 
   const [addColor, setAddColor] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(false);
@@ -282,60 +279,17 @@ function SingleProduct(props) {
                   </Col>
                 </Row>
               </Container>
-              {addColor ? (
-                <Row>
-                  <Col lg={3} xs="auto">
-                    <HexColorPicker
-                      className="m-2"
-                      color={color}
-                      onChange={setColor}
-                    />
-                    <Box
-                      sx={{
-                        backgroundColor: color,
-                        width: "1.5rem",
-                        height: "1.5rem",
-                        borderRadius: "50%",
-                        border: 2,
-                      }}
-                    ></Box>
-                    <TextField
-                      className="mb-2"
-                      value={color}
-                      variant="standard"
-                      onChange={(e) => setColor(e.target.value)}
-                    ></TextField>
-                    <Button
-                      variant="outline-primary"
-                      className="mr-3"
-                      onClick={() => setAddColor(!addColor)}
-                    >
-                      Save color
-                    </Button>
-                    <Button
-                      className="mr-3"
-                      variant="outline-danger"
-                      onClick={() => {
-                        setAddColor(!addColor);
-                        setColor("#ffffff");
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </Col>
-                </Row>
-              ) : (
-                !deleteProduct && (
-                  <Button
-                    variant="outline-primary"
-                    className="mr-3"
-                    onClick={() => setAddColor(!addColor)}
-                  >
-                    Add new color
-                  </Button>
-                )
+              {!deleteProduct && (
+                <Button
+                  variant="outline-primary"
+                  className="mr-3"
+                  onClick={() =>
+                    dispatch(showOffCanvasCreateColor(props.products))
+                  }
+                >
+                  Add new color
+                </Button>
               )}
-
               {deleteProduct ? (
                 <>
                   <Button variant="outline-danger">Confirm?</Button>

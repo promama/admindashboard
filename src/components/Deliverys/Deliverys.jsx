@@ -1,23 +1,18 @@
 import React from "react";
-import { Card, Col, Row, Stack } from "react-bootstrap";
-import SingleOrder from "./SingleOrder";
-import { formatCurrency } from "../../utils/formatCurrency";
-import { Button, CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { approveOrder } from "../../Slices/cartSlice";
-import { reset } from "../../Slices/userSlice";
 import { useNavigate } from "react-router-dom";
+import { reset } from "../../Slices/userSlice";
+import { Card, Col, Row, Stack } from "react-bootstrap";
 import { Box } from "@mui/system";
+import { Button, CircularProgress } from "@mui/material";
+import { formatCurrency } from "../../utils/formatCurrency";
+import SingleDelivery from "./SingleDelivery";
+import { finishOrder } from "../../Slices/cartSlice";
 
-function Order(props) {
+function Deliverys(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector((state) => state.cart.isLoading);
-
-  function checkStatusWaitingApprove(status) {
-    if (status === "Waiting approve") return true;
-    return false;
-  }
 
   function checkStatusDelivering(status) {
     if (status === "Delivering") return true;
@@ -36,11 +31,11 @@ function Order(props) {
     }
   }
 
-  const handleApproveOrder = async () => {
+  const handleFinishOrder = async () => {
     console.log({ orderId: props.orders.orderId });
     try {
-      await dispatch(approveOrder({ orderId: props.orders.orderId })).unwrap();
-      alert("Order Approved");
+      await dispatch(finishOrder({ orderId: props.orders.orderId })).unwrap();
+      alert("Order Finished");
     } catch (err) {
       if (err.message === "signin again") {
         dispatch(reset());
@@ -74,7 +69,7 @@ function Order(props) {
                 props.orders.productInOrder.map((product) => {
                   return (
                     <div>
-                      <SingleOrder
+                      <SingleDelivery
                         product={product}
                         key={product._id + product.orderId}
                       />
@@ -88,13 +83,13 @@ function Order(props) {
                       <CircularProgress />
                     </Box>
                   ) : (
-                    checkStatusWaitingApprove(props.orders.status) && (
+                    checkStatusDelivering(props.orders.status) && (
                       <Button
                         variant="contained"
-                        color="warning"
-                        onClick={handleApproveOrder}
+                        color="primary"
+                        onClick={handleFinishOrder}
                       >
-                        Approve Order
+                        Finish Order
                       </Button>
                     )
                   )}
@@ -117,4 +112,4 @@ function Order(props) {
   );
 }
 
-export default Order;
+export default Deliverys;
