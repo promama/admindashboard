@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 
 import DashBoard from "./pages/DashBoard/DashBoard";
 import User from "./pages/User/User";

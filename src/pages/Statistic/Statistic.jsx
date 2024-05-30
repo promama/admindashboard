@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import SideBar from "../../components/SideBar/SideBar";
 import TopBar from "../../components/TopBar/TopBar";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ListStatistic from "../../components/Statistic/Monthly";
 
 function Statistic() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const email = useSelector((state) => state.user.email);
 
   return (
@@ -16,7 +18,7 @@ function Statistic() {
         {/* Topbar */}
         <div className="d-flex flex-column" id="content-wrapper">
           <TopBar />
-          <div className="container-fluid">Statistic page</div>
+          <ListStatistic />
         </div>
         {/* Scroll to Top Button*/}
         <a className="scroll-to-top rounded" href="#page-top">

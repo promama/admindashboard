@@ -250,7 +250,13 @@ function CreateNewProduct() {
         </Row>
         {/* product 4 images */}
         <Row>
-          <input id="file" type="file" onChange={handleSelectFile} multiple />
+          <input
+            className="mb-2"
+            id="file"
+            type="file"
+            onChange={handleSelectFile}
+            multiple
+          />
           {file &&
             file.map((sfile) => {
               return (
@@ -267,7 +273,7 @@ function CreateNewProduct() {
               );
             })}
         </Row>
-        <Button type="submit" variant="contained">
+        <Button className="mt-3" type="submit" variant="contained">
           Create new Product
         </Button>
       </Box>

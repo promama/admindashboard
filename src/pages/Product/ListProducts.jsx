@@ -3,7 +3,7 @@ import { Button, Card, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import SingleProduct from "./SingleProduct";
 import { showOffcanvasCreateProduct } from "../../Slices/productSlice";
-import { Pagination } from "@mui/material";
+import { Pagination, TextField } from "@mui/material";
 
 function ListProducts() {
   const products = useSelector((state) => state.product.products);
@@ -41,17 +41,13 @@ function ListProducts() {
         </Button>
       </Card.Header>
       <Card.Body>
-        <input
+        <TextField
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           type="search"
-        ></input>
-        <div>
-          <h3>items:</h3>
-          {filteredProduct.map((item) => (
-            <div>{item.name}</div>
-          ))}
-        </div>
+          helperText="search"
+          variant="standard"
+        ></TextField>
         {products &&
           filteredProduct.map((product, index) => {
             if (index > (page - 1) * 5 - 1 && index < (page - 1) * 5 + 5) {

@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { reset } from "../../Slices/userSlice";
-import { Card, Col, Row, Stack } from "react-bootstrap";
+import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { Box } from "@mui/system";
 import { Button, CircularProgress } from "@mui/material";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -17,18 +17,6 @@ function Deliverys(props) {
   function checkStatusDelivering(status) {
     if (status === "Delivering") return true;
     return false;
-  }
-
-  function checkStatus(status) {
-    if (status === "Finish") {
-      return "text-success";
-    } else if (status === "Waiting approve") {
-      return "text-warning";
-    } else if (status === "Delivering") {
-      return "text-primary";
-    } else {
-      return "text-secondary";
-    }
   }
 
   const handleFinishOrder = async () => {
@@ -56,12 +44,35 @@ function Deliverys(props) {
               <Stack
                 direction="horizontal"
                 gap={2}
-                className="d-flex align-items-center font-weight-bold"
+                className="font-weight-bold"
               >
-                <div className="me-auto">Order id: {props.orders.orderId}</div>
-                <div className={checkStatus(props.orders.status)}>
-                  {props.orders.status}
-                </div>
+                <Container>
+                  <Row>
+                    <Col>
+                      <div className="">Order id: {props.orders?.orderId}</div>
+                    </Col>
+                    <Col className="d-flex justify-content-end">
+                      <div className="" style={{ color: "#00f6ff" }}>
+                        {props.orders.status}
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <div className="me-auto">
+                      Receiver: {props.orders?.name}
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="me-auto">
+                      Phone numbers: {props.orders?.phoneNumber}
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="me-auto">
+                      Address: {props.orders?.address}
+                    </div>
+                  </Row>
+                </Container>
               </Stack>
             </Card.Header>
             <Card.Body>

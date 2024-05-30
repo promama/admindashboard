@@ -144,7 +144,13 @@ function CreateExistProduct(props) {
 
         {/* product 4 images */}
         <Row>
-          <input id="file" type="file" onChange={handleSelectFile} multiple />
+          <input
+            className="mb-2"
+            id="file"
+            type="file"
+            onChange={handleSelectFile}
+            multiple
+          />
           {file &&
             file.map((sfile) => {
               return (

@@ -1,8 +1,8 @@
 import React from "react";
-import { Card, Col, Row, Stack } from "react-bootstrap";
+import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import SingleOrder from "./SingleOrder";
 import { formatCurrency } from "../../utils/formatCurrency";
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { approveOrder } from "../../Slices/cartSlice";
 import { reset } from "../../Slices/userSlice";
@@ -19,21 +19,16 @@ function Order(props) {
     return false;
   }
 
-  function checkStatusDelivering(status) {
-    if (status === "Delivering") return true;
-    return false;
-  }
-
   function checkStatus(status) {
-    if (status === "Finish") {
-      return "text-success";
+    if (status === "In cart") {
+      return "blue";
     } else if (status === "Waiting approve") {
-      return "text-warning";
+      return "#ff6500";
     } else if (status === "Delivering") {
-      return "text-primary";
-    } else {
-      return "text-secondary";
-    }
+      return "#00f6ff";
+    } else if (status === "Finish") {
+      return "#1bff00";
+    } else return "#ff2525";
   }
 
   const handleApproveOrder = async () => {
@@ -58,15 +53,37 @@ function Order(props) {
         <div className="mb-4">
           <Card>
             <Card.Header className="bg-transparent">
-              <Stack
-                direction="horizontal"
-                gap={2}
-                className="d-flex align-items-center font-weight-bold"
-              >
-                <div className="me-auto">Order id: {props.orders.orderId}</div>
-                <div className={checkStatus(props.orders.status)}>
-                  {props.orders.status}
-                </div>
+              <Stack gap={2} className="font-weight-bold">
+                <Container className="">
+                  <Row className="">
+                    <Col>
+                      <div className="">Order id: {props.orders?.orderId}</div>
+                    </Col>
+                    <Col className="d-flex justify-content-end">
+                      <div
+                        className=""
+                        style={{ color: checkStatus(props.orders.status) }}
+                      >
+                        {props.orders.status}
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <div className="me-auto">
+                      Receiver: {props.orders?.name}
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="me-auto">
+                      Phone numbers: {props.orders?.phoneNumber}
+                    </div>
+                  </Row>
+                  <Row>
+                    <div className="me-auto">
+                      Address: {props.orders?.address}
+                    </div>
+                  </Row>
+                </Container>
               </Stack>
             </Card.Header>
             <Card.Body>

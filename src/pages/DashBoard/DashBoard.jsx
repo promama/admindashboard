@@ -3,26 +3,23 @@ import "./DashBoard.css";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../../components/SideBar/SideBar";
 import TopBar from "../../components/TopBar/TopBar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ListStatistic from "../../components/Statistic/Monthly";
+import { fetchShowGeneralIncom } from "../../Slices/statisticSlice";
+import Status from "../../components/Statistic/Status";
 
 function DashBoard() {
-  const [style, setStyle] = useState(
-    "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const email = useSelector((state) => state.user.email);
+  const general = useSelector((state) => state.statistic.general);
 
-  const changeStyle = () => {
-    if (
-      style === "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
-    ) {
-      setStyle(
-        "navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled"
-      );
-    } else {
-      setStyle("navbar-nav bg-gradient-primary sidebar sidebar-dark accordion");
+  useEffect(() => {
+    try {
+      dispatch(fetchShowGeneralIncom());
+    } catch (err) {
+      alert(err.message);
     }
-  };
+  }, [dispatch]);
 
   return (
     <div>
@@ -60,7 +57,7 @@ function DashBoard() {
                               Earnings (Monthly)
                             </div>
                             <div className="h5 mb-0 font-weight-bold text-gray-800">
-                              $40,000
+                              ${general.monthly}
                             </div>
                           </div>
                           <div className="col-auto">
@@ -81,7 +78,7 @@ function DashBoard() {
                               Earnings (Total)
                             </div>
                             <div className="h5 mb-0 font-weight-bold text-gray-800">
-                              $215,000
+                              ${general.total}
                             </div>
                           </div>
                           <div className="col-auto">
@@ -102,9 +99,9 @@ function DashBoard() {
                               Total Products
                             </div>
                             <div className="row no-gutters align-items-center">
-                              <div className="col-auto">
-                                <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                  123456
+                              <div className="col mr-2">
+                                <div className="h5 ml-3 mb-0 font-weight-bold text-gray-800">
+                                  {general.product}
                                 </div>
                               </div>
                             </div>
@@ -127,7 +124,7 @@ function DashBoard() {
                               Total Users
                             </div>
                             <div className="h5 mb-0 font-weight-bold text-gray-800">
-                              100
+                              {general.user}
                             </div>
                           </div>
                           <div className="col-auto">
@@ -149,106 +146,31 @@ function DashBoard() {
                       {/* Card Header - Dropdown */}
                       <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 className="m-0 font-weight-bold text-primary">
-                          Earnings Overview
+                          Earning group by months
                         </h6>
-                        <div className="dropdown no-arrow">
-                          <a
-                            className="dropdown-toggle"
-                            href="#"
-                            role="button"
-                            id="dropdownMenuLink"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                          </a>
-                          <div
-                            className="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink"
-                          >
-                            <div className="dropdown-header">
-                              Dropdown Header:
-                            </div>
-                            <a className="dropdown-item" href="#">
-                              Action
-                            </a>
-                            <a className="dropdown-item" href="#">
-                              Another action
-                            </a>
-                            <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="#">
-                              Something else here
-                            </a>
-                          </div>
-                        </div>
                       </div>
                       {/* Card Body */}
                       <div className="card-body">
                         <div className="chart-area">
-                          <canvas id="myAreaChart"></canvas>
+                          <ListStatistic />
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Pie Chart */}
-                  <div className="col-xl-4 col-lg-5">
+                  <div className="col-xl-4 col-lg-4">
                     <div className="card shadow mb-4">
                       {/* Card Header - Dropdown */}
                       <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 className="m-0 font-weight-bold text-primary">
-                          Revenue Sources
+                          Earning group by status
                         </h6>
-                        <div className="dropdown no-arrow">
-                          <a
-                            className="dropdown-toggle"
-                            href="#"
-                            role="button"
-                            id="dropdownMenuLink"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                          >
-                            <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                          </a>
-                          <div
-                            className="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink"
-                          >
-                            <div className="dropdown-header">
-                              Dropdown Header:
-                            </div>
-                            <a className="dropdown-item" href="#">
-                              Action
-                            </a>
-                            <a className="dropdown-item" href="#">
-                              Another action
-                            </a>
-                            <div className="dropdown-divider"></div>
-                            <a className="dropdown-item" href="#">
-                              Something else here
-                            </a>
-                          </div>
-                        </div>
                       </div>
                       {/* Card Body */}
                       <div className="card-body">
                         <div className="chart-pie pt-4 pb-2">
-                          <canvas id="myPieChart"></canvas>
-                        </div>
-                        <div className="mt-4 text-center small">
-                          <span className="mr-2">
-                            <i className="fas fa-circle text-primary"></i>{" "}
-                            Direct
-                          </span>
-                          <span className="mr-2">
-                            <i className="fas fa-circle text-success"></i>{" "}
-                            Social
-                          </span>
-                          <span className="mr-2">
-                            <i className="fas fa-circle text-info"></i> Referral
-                          </span>
+                          <Status />
                         </div>
                       </div>
                     </div>
