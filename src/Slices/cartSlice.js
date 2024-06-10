@@ -5,6 +5,7 @@ const initialState = {
   status: "",
   message: "",
   orders: [],
+  orderCount: [],
   isLoading: false,
 };
 
@@ -93,6 +94,7 @@ const cartSlice = createSlice({
     builder.addCase(showAllOrder.fulfilled, (state, action) => {
       state.status = "success";
       state.orders = action.payload.listOrder;
+      state.orderCount = action.payload.countEachOrder;
     });
     builder.addCase(showAllOrder.rejected, (state, action) => {
       state.status = "fail";

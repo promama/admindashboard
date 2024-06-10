@@ -20,9 +20,7 @@ function Order(props) {
   }
 
   function checkStatus(status) {
-    if (status === "In cart") {
-      return "blue";
-    } else if (status === "Waiting approve") {
+    if (status === "Waiting approve") {
       return "#ff6500";
     } else if (status === "Delivering") {
       return "#00f6ff";

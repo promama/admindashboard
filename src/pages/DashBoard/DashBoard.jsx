@@ -4,14 +4,18 @@ import { useNavigate } from "react-router-dom";
 import SideBar from "../../components/SideBar/SideBar";
 import TopBar from "../../components/TopBar/TopBar";
 import { useDispatch, useSelector } from "react-redux";
-import ListStatistic from "../../components/Statistic/Monthly";
+import ListStatistic from "../../components/Statistic/Yearly";
 import { fetchShowGeneralIncom } from "../../Slices/statisticSlice";
 import Status from "../../components/Statistic/Status";
+import TabStats from "./TabStats";
+import FilterOption from "./FilterOption";
 
 function DashBoard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const general = useSelector((state) => state.statistic.general);
+  const [showing, setShowing] = useState("Yearly");
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     try {
@@ -20,6 +24,14 @@ function DashBoard() {
       alert(err.message);
     }
   }, [dispatch]);
+
+  const handleCallback = (dataFromTab) => {
+    setShowing(dataFromTab);
+  };
+
+  const handleFilterCallBack = (dataFromFilter) => {
+    setFilter(dataFromFilter);
+  };
 
   return (
     <div>
@@ -151,6 +163,8 @@ function DashBoard() {
                       </div>
                       {/* Card Body */}
                       <div className="card-body">
+                        <TabStats parentCallback={handleCallback}></TabStats>
+                        <FilterOption showing={showing} />
                         <div className="chart-area">
                           <ListStatistic />
                         </div>

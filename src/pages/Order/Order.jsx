@@ -12,8 +12,9 @@ function Order() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const listOrders = useSelector((state) => state.cart.orders);
+  const orderCount = useSelector((state) => state.cart.orderCount);
 
-  const [value, setValue] = useState("In cart");
+  const [value, setValue] = useState("");
   const [textColor, setTextColor] = useState("blue");
   const [indicatorColor, setIndicatorColor] = useState("blue");
 
@@ -89,23 +90,15 @@ function Order() {
                 >
                   <Tab
                     value=""
-                    label="All order"
+                    label={"All order".concat(" (", orderCount[4], ")")}
                     onClick={() => {
                       setTextColor("black");
                       setIndicatorColor("black");
                     }}
                   />
                   <Tab
-                    value="In cart"
-                    label="In cart"
-                    onClick={() => {
-                      setTextColor("blue");
-                      setIndicatorColor("blue");
-                    }}
-                  />
-                  <Tab
                     value="Waiting approve"
-                    label="Waiting Approve"
+                    label={"Waiting Approve".concat(" (", orderCount[0], ")")}
                     onClick={() => {
                       setTextColor("#ff6500");
                       setIndicatorColor("#ff6500");
@@ -113,7 +106,7 @@ function Order() {
                   />
                   <Tab
                     value="Delivering"
-                    label="Delivering"
+                    label={"Delivering".concat(" (", orderCount[1], ")")}
                     onClick={() => {
                       setTextColor("#00f6ff");
                       setIndicatorColor("#00f6ff");
@@ -121,7 +114,7 @@ function Order() {
                   />
                   <Tab
                     value="Finish"
-                    label="Finish"
+                    label={"Finish".concat(" (", orderCount[2], ")")}
                     onClick={() => {
                       setTextColor("#1bff00");
                       setIndicatorColor("#1bff00");
@@ -129,7 +122,7 @@ function Order() {
                   />
                   <Tab
                     value="Cancelled"
-                    label="Cancelled"
+                    label={"Cancelled".concat(" (", orderCount[3], ")")}
                     onClick={() => {
                       setTextColor("#ff2525");
                       setIndicatorColor("#ff2525");

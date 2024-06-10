@@ -3,7 +3,7 @@ import SideBar from "../../components/SideBar/SideBar";
 import TopBar from "../../components/TopBar/TopBar";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import ListStatistic from "../../components/Statistic/Monthly";
+import ListStatistic from "../../components/Statistic/Yearly";
 
 function Statistic() {
   const navigate = useNavigate();
