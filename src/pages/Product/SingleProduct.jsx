@@ -3,17 +3,19 @@ import { Button, Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import ProductColor from "./ProductColor";
 import {
+  fetchDeleteProduct,
   fetchUpdateProductBrand,
   fetchUpdateProductCategory,
   fetchUpdateProductName,
   showOffCanvasCreateColor,
 } from "../../Slices/productSlice";
-import { TextField } from "@mui/material";
+import { CircularProgress, TextField } from "@mui/material";
 import { reset } from "../../Slices/userSlice";
 import { useNavigate } from "react-router-dom";
 
 function SingleProduct(props) {
   const colors = useSelector((state) => state.product.colors);
+  const isLoading = useSelector((state) => state.product.isLoading);
 
   const [addColor, setAddColor] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState(false);
@@ -84,6 +86,24 @@ function SingleProduct(props) {
           productId: props.products._id,
           productCategory: productCategory,
         })
+      ).unwrap();
+      alert(res.message);
+    } catch (err) {
+      if (err.message === "signin again") {
+        dispatch(reset());
+        navigate("/signin");
+      } else {
+        alert(err.message);
+      }
+    }
+  };
+
+  const handleDeleteProduct = async (e) => {
+    setDeleteProduct(!deleteProduct);
+    console.log(props.products._id);
+    try {
+      const res = await dispatch(
+        fetchDeleteProduct({ productId: props.products._id })
       ).unwrap();
       alert(res.message);
     } catch (err) {
@@ -279,7 +299,45 @@ function SingleProduct(props) {
                   </Col>
                 </Row>
               </Container>
-              {!deleteProduct && (
+              {isLoading ? (
+                <CircularProgress />
+              ) : deleteProduct ? (
+                <>
+                  <Button
+                    variant="outline-danger"
+                    onClick={handleDeleteProduct}
+                  >
+                    Confirm?
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    variant="outline-primary"
+                    onClick={() => setDeleteProduct(!deleteProduct)}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="outline-primary"
+                    className="mr-3"
+                    onClick={() =>
+                      dispatch(showOffCanvasCreateColor(props.products))
+                    }
+                  >
+                    Add new color
+                  </Button>
+
+                  <Button
+                    variant="outline-danger"
+                    onClick={() => setDeleteProduct(!deleteProduct)}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
+              {/* {!deleteProduct && (
                 <Button
                   variant="outline-primary"
                   className="mr-3"
@@ -292,7 +350,12 @@ function SingleProduct(props) {
               )}
               {deleteProduct ? (
                 <>
-                  <Button variant="outline-danger">Confirm?</Button>
+                  <Button
+                    variant="outline-danger"
+                    onClick={handleDeleteProduct}
+                  >
+                    Confirm?
+                  </Button>
                   <Button
                     className="ml-2"
                     variant="outline-primary"
@@ -310,7 +373,7 @@ function SingleProduct(props) {
                     Delete
                   </Button>
                 )
-              )}
+              )} */}
             </Card.Body>
           </Card>
         </div>

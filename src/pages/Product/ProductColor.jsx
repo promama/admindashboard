@@ -39,6 +39,8 @@ function ProductColor(props) {
       const res = await dispatch(
         fetchUpdateProductColor({
           colorId: props.colors?._id,
+          productId: props.colors?.productId,
+          oldColor: props.colors?.productColor,
           productColor: color,
         })
       ).unwrap();

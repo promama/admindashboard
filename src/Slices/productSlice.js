@@ -245,6 +245,25 @@ export const fetchDeleteProductColor = createAsyncThunk(
   }
 );
 
+export const fetchDeleteProduct = createAsyncThunk(
+  "product/fetchDeleteProduct",
+  async (productData, { rejectWithValue }) => {
+    try {
+      const res = await axios.request({
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        method: "DELETE",
+        url: `http://localhost:5000/admin/deleteProduct`,
+        data: productData,
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState,
@@ -374,6 +393,7 @@ const productSlice = createSlice({
     builder.addCase(fetchUpdateProductColor.fulfilled, (state, action) => {
       state.status = "success";
       state.colors = action.payload?.colors;
+      state.sizes = action.payload?.sizes;
       state.message = action.payload?.message;
     });
     builder.addCase(fetchUpdateProductColor.rejected, (state, action) => {
@@ -424,6 +444,23 @@ const productSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(fetchDeleteProductColor.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    //delete product
+    builder.addCase(fetchDeleteProduct.fulfilled, (state, action) => {
+      state.status = "success";
+      state.colors = action.payload?.colors;
+      state.sizes = action.payload?.sizes;
+      state.products = action.payload?.products;
+      state.message = action.payload?.message;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchDeleteProduct.rejected, (state, action) => {
+      state.status = "fail";
+      state.message = action.payload?.message;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchDeleteProduct.pending, (state, action) => {
       state.isLoading = true;
     });
   },
