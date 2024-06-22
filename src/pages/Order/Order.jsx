@@ -94,6 +94,8 @@ function Order() {
                     onClick={() => {
                       setTextColor("black");
                       setIndicatorColor("black");
+                      setpageCount(Math.ceil(orderCount[4] / 5));
+                      setPage(1);
                     }}
                   />
                   <Tab
@@ -102,6 +104,8 @@ function Order() {
                     onClick={() => {
                       setTextColor("#ff6500");
                       setIndicatorColor("#ff6500");
+                      setpageCount(Math.ceil(orderCount[0] / 5));
+                      setPage(1);
                     }}
                   />
                   <Tab
@@ -110,6 +114,8 @@ function Order() {
                     onClick={() => {
                       setTextColor("#00f6ff");
                       setIndicatorColor("#00f6ff");
+                      setpageCount(Math.ceil(orderCount[1] / 5));
+                      setPage(1);
                     }}
                   />
                   <Tab
@@ -118,6 +124,8 @@ function Order() {
                     onClick={() => {
                       setTextColor("#1bff00");
                       setIndicatorColor("#1bff00");
+                      setpageCount(Math.ceil(orderCount[2] / 5));
+                      setPage(1);
                     }}
                   />
                   <Tab
@@ -126,6 +134,8 @@ function Order() {
                     onClick={() => {
                       setTextColor("#ff2525");
                       setIndicatorColor("#ff2525");
+                      setpageCount(Math.ceil(orderCount[3] / 5));
+                      setPage(1);
                     }}
                   />
                 </Tabs>
@@ -134,6 +144,7 @@ function Order() {
                 filteredProduct
                   ?.slice(0)
                   .reverse()
+                  .filter((order) => order.status.includes(value))
                   .map((order, index) => {
                     if (
                       index > (page - 1) * 5 - 1 &&
