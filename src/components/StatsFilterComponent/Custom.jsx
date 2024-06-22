@@ -25,8 +25,8 @@ function Custom() {
       try {
         await dispatch(
           fetchShowIncomeBetweenTwoDates({
-            from: fromDate.add(1, "day"),
-            to: toDate.add(1, "day"),
+            from: fromDate,
+            to: toDate,
           })
         ).unwrap();
       } catch (err) {

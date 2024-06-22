@@ -79,13 +79,13 @@ function SideBar() {
         {/* Divider */}
         <hr className="sidebar-divider my-0" />
 
-        {/* Nav Item - Manage Statistic */}
+        {/* Nav Item - Manage Statistic
         <li className="nav-item">
           <a className="nav-link" href="/statistics">
             <i className="fas fa-fw fa-chart-area"></i>
             <span>Statistic</span>
           </a>
-        </li>
+        </li> */}
 
         {/* Divider */}
         <hr className="sidebar-divider d-none d-md-block" />

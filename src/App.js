@@ -26,7 +26,7 @@ function App() {
             <Route path="/" Component={DashBoard}></Route>
             <Route path="/users" Component={User}></Route>
             <Route path="/products" Component={Product}></Route>
-            <Route path="/statistics" Component={Statistic}></Route>
+            {/* <Route path="/statistics" Component={Statistic}></Route> */}
             <Route path="/orders" Component={Order}></Route>
             <Route path="/deliverys" Component={Delivery}></Route>
           </Route>
