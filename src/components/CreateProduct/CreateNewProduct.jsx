@@ -60,7 +60,6 @@ function CreateNewProduct() {
         })
       );
       setFiles(data);
-      console.log(files?.test);
     } else {
       alert("only upload 4 or less than 4 files");
       setFiles("");

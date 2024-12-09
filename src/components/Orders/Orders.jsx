@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Card, Col, Container, Row, Stack } from "react-bootstrap";
 import SingleOrder from "./SingleOrder";
 import { formatCurrency } from "../../utils/formatCurrency";
@@ -9,10 +9,13 @@ import { reset } from "../../Slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
 
+import socketIOClient from "socket.io-client";
+
 function Order(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoading = useSelector((state) => state.cart.isLoading);
+  const socketRef = useRef();
 
   function checkStatusWaitingApprove(status) {
     if (status === "Waiting approve") return true;
@@ -29,10 +32,19 @@ function Order(props) {
     } else return "#ff2525";
   }
 
+  useEffect(() => {
+    socketRef.current = socketIOClient.connect("http://localhost:5001");
+  });
+
   const handleApproveOrder = async () => {
     console.log({ orderId: props.orders.orderId });
     try {
       await dispatch(approveOrder({ orderId: props.orders.orderId })).unwrap();
+      await socketRef.current.emit("manager:approve-order", {
+        message: "manager approve an order",
+        orderDetail: props.orders,
+      });
+
       alert("Order Approved");
     } catch (err) {
       if (err.message === "signin again") {

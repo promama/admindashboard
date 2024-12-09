@@ -11,7 +11,25 @@ const initialState = {
   isShowOffcanvas: false,
   userIndex: 0,
   allowAccess: true,
+  userSocketId: "",
+  notificationList: [],
+  unreadNotify: 0,
 };
+
+export const fetchTestingSocket = createAsyncThunk(
+  "test/fetchTestingSocket",
+  async (token, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/testing/testValidateSocket",
+        token
+      );
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const fetchLogin = createAsyncThunk(
   "user/fetchLogin",
@@ -102,6 +120,22 @@ export const fetchDeleteUser = createAsyncThunk(
   }
 );
 
+export const fetchUnreadNotification = createAsyncThunk(
+  "/user/fetchUnreadNotification",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.request({
+        method: "POST",
+        url: `http://localhost:5000/admin/notification`,
+        data: data,
+      });
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -127,8 +161,21 @@ const userSlice = createSlice({
       state.isShowOffcanvas = false;
       state.userIndex = -1;
     },
+    replaceNotify: (state, action) => {
+      state.notificationList = action.payload.notify;
+      state.unreadNotify = action.payload.managerUnreadNoti;
+    },
   },
   extraReducers: (builder) => {
+    //testing socket
+    builder.addCase(fetchTestingSocket.fulfilled, (state, action) => {
+      state.message = "success";
+      state.userSocketId = action.payload.socketId;
+    });
+    builder.addCase(fetchTestingSocket.rejected, (state, action) => {
+      state.status = "fail";
+      state.message = action.payload.message;
+    });
     //login in to page
     builder.addCase(fetchLogin.fulfilled, (state, action) => {
       state.status = "success";
@@ -192,9 +239,16 @@ const userSlice = createSlice({
       state.status = "fail";
       state.message = action.payload.message;
     });
+    //notification
+    builder.addCase(fetchUnreadNotification.fulfilled, (state, action) => {
+      state.status = "success";
+      state.notificationList = action.payload.listNotification;
+      state.unreadNotify = action.payload.unreadNoti;
+    });
   },
 });
 
-export const { reset, showOffcanvas, hideOffCanvas } = userSlice.actions;
+export const { reset, showOffcanvas, hideOffCanvas, replaceNotify } =
+  userSlice.actions;
 
 export default userSlice.reducer;

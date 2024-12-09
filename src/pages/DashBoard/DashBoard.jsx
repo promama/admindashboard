@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./DashBoard.css";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../../components/SideBar/SideBar";
@@ -10,12 +10,97 @@ import Status from "../../components/Statistic/Status";
 import TabStats from "./TabStats";
 import FilterOption from "./FilterOption";
 
+import socketIOClient from "socket.io-client";
+import { fetchTestingSocket } from "../../Slices/userSlice";
+import { replaceNotify } from "../../Slices/cartSlice";
+
 function DashBoard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const general = useSelector((state) => state.statistic.general);
   const [showing, setShowing] = useState("Yearly");
   const [filter, setFilter] = useState("");
+
+  // const [responseMessage, setResponseMessage] = useState("Waiting Response");
+  // const socketRef = useRef();
+  // const managerRoom = useSelector((state) => state.user.email);
+
+  // useEffect(() => {
+  //   socketRef.current = socketIOClient.connect("http://localhost:5001");
+
+  //   try {
+  //     //connect to manager room
+  //     socketRef.current.emit("manager:join");
+  //     //listen to server accept join room
+  //     socketRef.current.on("server:acceptjoin", (message) => {
+  //       if (!message.success) {
+  //         alert("not join room");
+  //       }
+  //     });
+  //   } catch {}
+
+  //   try {
+  //     //listen to server sending a user confirm order
+  //     socketRef.current.on("server:user-confirm-order", (message) => {
+  //       dispatch(replaceNotify(message.notify));
+  //       alert(message.message);
+  //     });
+  //   } catch {}
+
+  //   try {
+  //     //listen to server a user finish order
+  //     socketRef.current.on("server:user-finish-order", (message) => {
+  //       dispatch(replaceNotify(message.notify));
+  //       alert(message.message);
+  //     });
+  //   } catch {}
+
+  //   try {
+  //     //testing socket sending
+  //     socketRef.current.on("server saying: ", (message) => {
+  //       setResponseMessage(message);
+  //     });
+  //     socketRef.current.on("server:saying", (message) => {
+  //       console.log(message);
+  //     });
+  //   } catch {}
+  // }, [managerRoom, dispatch]);
+
+  // function submitSendMessage() {
+  //   //send message to server
+  //   console.log("current socket id is: " + socketRef.current.id);
+  //   socketRef.current.emit("chat message", {
+  //     message: "call you from admin",
+  //     socketId: socketRef.current.id,
+  //   });
+  // }
+
+  // const submitSendSocketId = async () => {
+  //   try {
+  //     const res = await dispatch(
+  //       fetchTestingSocket({ token: localStorage.getItem("access_token") })
+  //     ).unwrap();
+  //     console.log(res);
+  //     await socketRef.current.emit("admin:saying", {
+  //       message: "i want you to throw list user to somewhere else",
+  //       token: localStorage.getItem("access_token"),
+  //       socketId: socketRef.current.id,
+  //     });
+  //   } catch (err) {
+  //     console.log("error: " + err);
+  //   }
+  // };
+
+  // const submitToRoom = async () => {
+  //   try {
+  //     await socketRef.current.emit("user:send-to-room", {
+  //       message: "send to room from admin page",
+  //       room: "phuc@gmail.com",
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   useEffect(() => {
     try {
@@ -55,6 +140,15 @@ function DashBoard() {
                 {/* Page Heading */}
                 <div className="d-sm-flex align-items-center justify-content-between mb-4">
                   <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
+                  {/* <button onClick={() => submitSendMessage()}>
+                    send message through socketio: {responseMessage}
+                  </button>
+                  <button onClick={() => submitSendSocketId()}>
+                    send and test middleware recieve socket id
+                  </button>
+                  <button onClick={() => submitToRoom()}>
+                    send message to room phuc@gmail.com
+                  </button> */}
                 </div>
 
                 {/* Content Row */}
