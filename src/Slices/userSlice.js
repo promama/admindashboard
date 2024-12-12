@@ -10,7 +10,7 @@ const initialState = {
   failData: {},
   isShowOffcanvas: false,
   userIndex: 0,
-  allowAccess: true,
+  allowAccess: false,
   userSocketId: "",
   notificationList: [],
   unreadNotify: 0,
@@ -224,8 +224,8 @@ const userSlice = createSlice({
     });
     builder.addCase(fetchVerify.rejected, (state, action) => {
       state.status = "fail";
-      state.message = action.payload.message;
-      state.allowAccess = action.payload.success;
+      state.message = action.payload?.message;
+      state.allowAccess = false;
     });
     //delete user
     builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {

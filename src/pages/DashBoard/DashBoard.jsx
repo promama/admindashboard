@@ -267,6 +267,7 @@ function DashBoard() {
                   </div>
 
                   {/* Pie Chart */}
+
                   <div className="col-xl-4 col-lg-4">
                     <div className="card shadow mb-4">
                       {/* Card Header - Dropdown */}
