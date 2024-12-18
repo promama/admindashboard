@@ -10,7 +10,7 @@ const initialState = {
   failData: {},
   isShowOffcanvas: false,
   userIndex: 0,
-  allowAccess: false,
+  allowAccess: true,
   userSocketId: "",
   notificationList: [],
   unreadNotify: 0,

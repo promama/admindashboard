@@ -18,8 +18,6 @@ function TopBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
-
   function isLogin(userEmail) {
     if (userEmail === "" || userEmail === null) {
       return false;

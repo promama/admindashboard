@@ -5,8 +5,7 @@ import { fetchVerify, reset } from "../Slices/userSlice";
 
 function PrivateRoutes() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const allowAccess = useSelector((state) => state.user?.allowAccess || null);
+  const allowAccess = useSelector((state) => state.user.allowAccess);
 
   useEffect(() => {
     try {
